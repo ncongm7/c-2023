@@ -1,0 +1,158 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace bài_tập_oop
+{
+    public class HocSinh
+    {// khai bao bien lop Mã HS, Tên, Điểm Thi, TỔng TK, HỌC Lực
+        private string maHS;
+        private string tenHS;
+        private double diemThi;
+        private float tongTB;
+        private string hocLuc;
+        public HocSinh()
+        {
+            this.maHS = "no";
+            this.tenHS = "no name";
+            this.hocLuc = "khong";
+            this.diemThi = 0;
+            this.tongTB = 0;
+
+        }
+        public HocSinh(string maHs,string tenHS, double diemThi, float tongTB,string hocLuc)
+        {
+            this.maHS = maHs;
+            this.tenHS = tenHS;
+            this.hocLuc = hocLuc;
+            this.tongTB = tongTB;
+            this.diemThi=diemThi;
+        }
+        #region Properties
+        public string MaHS
+        {
+            get { return this.maHS; }
+            set { this.maHS = value; }
+        }
+        public string TenHS
+        {
+            get { return this.tenHS; }
+            set { this.tenHS = value; }
+
+        }
+        public double DiemThi
+        {
+            get { return this.diemThi; }
+            set { this.diemThi = value; }
+        }
+        public float TongTB
+        {
+            get { return this.tongTB; }
+            set { this.tongTB = value; }
+        }
+        public string HocLuc
+        {
+            get { return this.hocLuc; }
+            set { this.hocLuc = value; }
+        }
+        #endregion
+
+        public void NhapDiemMonHoc()
+        {
+            Console.WriteLine("Nhập điểm của 3 môn học (cách nhau bằng dấu cách):");
+            string[] input = Console.ReadLine().Split(' ');
+
+            if (input.Length != 3)
+            {
+                Console.WriteLine("Nhập không đủ điểm cho 3 môn học!");
+            }
+            else
+            {
+                float diemMon1, diemMon2, diemMon3;
+                if (!float.TryParse(input[0], out diemMon1) || !float.TryParse(input[1], out diemMon2) || !float.TryParse(input[2], out diemMon3))
+                {
+                    Console.WriteLine("Nhập không hợp lệ!");
+                }
+                else
+                {
+                    float tongDiem = (diemMon1 + diemMon2 + diemMon3) / 3;
+
+                    if (tongDiem >= 8)
+                    {
+                        Console.WriteLine("Đỗ");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Trượt");
+                    }
+                    
+                }
+            }
+        }
+
+
+        public float TongHk(params float[] mang)
+        {
+            float s = 0;
+            foreach(float f in mang)
+            {
+                s += f;
+            }
+            return (s / mang.Count());
+        }
+    }
+    
+    
+    
+}
+
+using bài_tập_oop;
+using System.Text;
+
+class Program
+{
+    static void Main(string[] args)
+    {   Console.OutputEncoding=UTF8Encoding.UTF8;
+        Console.WriteLine("Nhập mã học sinh:");
+        string maHS = Console.ReadLine();
+        // Tạo một đối tượng HocSinh với mã học sinh vừa nhập
+        HocSinh hocSinhMoi = new HocSinh();
+
+
+
+        hocSinhMoi.MaHS = maHS; // Gán mã học sinh vừa nhập cho đối tượng
+        Console.WriteLine("Nhập tên học sinh");
+
+        string tenHS = Console.ReadLine();
+        hocSinhMoi.TenHS = tenHS;
+        // nhập tổng điểm
+        hocSinhMoi.NhapDiemMonHoc();
+       
+        //số môn học
+        Console.WriteLine("Nhập số lượng điểm môn học:");
+        int soLuongDiem = Convert.ToInt32(Console.ReadLine());
+
+        float[] diemMonHoc = new float[soLuongDiem];
+
+        Console.WriteLine($"Nhập {soLuongDiem} điểm môn học:");
+        for (int i = 0; i < soLuongDiem; i++)
+        {
+            float diem;
+            while (!float.TryParse(Console.ReadLine(), out diem))
+            {
+                Console.WriteLine("Vui lòng nhập số thực!");
+            }
+            diemMonHoc[i] = diem;
+        }
+
+        
+        float tongHK = hocSinhMoi.TongHk(diemMonHoc);
+        Console.WriteLine($"Tổng điểm trung bình: {tongHK}");
+        Console.WriteLine("Thông tin mới là: " + hocSinhMoi.MaHS + " " + hocSinhMoi.TenHS + " ");
+
+        Console.ReadLine(); 
+
+    }
+}
